@@ -1,0 +1,70 @@
+# Questions
+
+- what possible structure of the application
+  - peer to peer (P2P)
+  - client server
+  - Hybrid of P2P and client server
+- what distinguish the server
+  - always have permanent ip address
+  - always on a host
+- what distinguish the client
+  - they communicate with servers and don't communicate directly with other clients
+  - may have a dynamic ip address
+  - may intermittently connected
+- what's P2P architecture
+  - it's architecture where the arbitrary end systems are communicate
+  - peers request service from other peers which provide service ,it's self scalability as new peers bring new service capacity based on service demands
+  - peers are intermittently connected and exchange ip addresses, so it complex management
+- what's process
+  - it's a program running within a host
+- whats the intra process communications
+  - process in the same host communicating using OS
+- process in deferent hosts communicate by exchanging messages
+- what's client process
+  - process that initiate the communication
+- what's server process
+  - process that waits to be connected
+- P2P arch, apps have client and server process
+- what's a socket
+  - is the interface between app layer and transport layer
+  - it's a programming interface API with with the program is built
+- from transport layer view what the programmer can do
+  - choice of the transport layer protocol
+  - ability to fx some parameters
+- what address processes ?
+  - the port number address the process running on the host
+  - the ip can't because there are many process running on the host
+- what functionality does the app layer provide
+  - types of messages (request of response)
+  - message syntax
+    - field of message
+    - how field are delineated
+  - message semantics
+    - meaning of information in fields
+  - rules
+    - when and how process send and respond to messages
+- give example of proprietary protocol
+  - skype
+- what's open protocol
+  - protocols can any one uses and it defined by the RFCs and allowed for interoperability
+- what transport services does the app need
+  - data reliability
+    - some apps eed 100% data reliability transfer like file sharing
+    - some are timing is the critical thing and the reliability not much critical
+  - timing
+    - internet telephone calls and video need low delay to be effective
+  - throughput
+    - some apps need minimum throughput to word effective like multimedia other are elastic
+- what tcp service provides ccfr
+  - connection oriented setup between sender and receiver
+  - congestion control, regulate sender when network overloaded
+  - flow control
+  - reliable data transfer
+- what tcp service nt provide
+  - timing guarantee
+  - minimum throughput guarantee
+  - security
+- what's SSL
+  - it's a thin layer above the transport layer
+  - provide the security for tcp
+  - provide data integrity, end point authentication, encrypted tcp connection
