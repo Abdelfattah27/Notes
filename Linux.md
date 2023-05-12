@@ -75,7 +75,7 @@ To switch modes in VMware, use `ALT + CTRL + F1`. However, before doing so, you 
   - `groupmod -g GID -n newName admin`
 - `userdel hamada`
   - `userdel -r`: delete user with the home directory
-- _chage_ : to change the password configuration as the expire date and others
+- `chage` : to change the password configuration as the expire date and others
 
 ### Permissions
 
@@ -106,38 +106,59 @@ To switch modes in VMware, use `ALT + CTRL + F1`. However, before doing so, you 
   - second 3 bits will be permissions of the Group
   - third 3 bits will be permissions for Others
 
-#### modes
+### Linux User Management
 
-- r :
-  - for file mean read the content of the file
-  - for folder list the files of the dir using ls
-- w :
-  - for file means edit the content of the file or delete it
-  - for folder add files to folder or remove it
-- x :
-  - for file means execute the file if it was app or script
-  - for directory means you can make **cd** to the directory
-    **_chown_** : to change the owner
-- the root must who change the owner of the files
-- chown ali /home/student/hamada :change the owner of hamada to ali
-- chown :admins /home/student/hamada : change the group
-- chgrp admin hamada : change the group of the file hamada to admin
+- Each user in Linux has a unique identifier called UID (user ID).
+- The root user always has a UID of 0, which gives them full administrative privileges.
+- Every user is assigned a primary group (usually named after the user) and can also belong to secondary groups, such as designers or programmers.
+- To create a new user and group named "ali," you can use the `useradd ali` command. This will create a private group for the user named "ali."
 
-#### change permissions
+### File Permissions in Linux
 
-**_chmod_**
+- In Linux, file permissions determine which users can read, write, or execute a file.
+- Permissions are divided into three categories: OWNER, GROUP, and OTHER.
+- Each file has a 10-bit permission code, represented as `b rwx rwx rwx`.
+  - The first bit represents the type of the file:
+    - `d`: for directory
+    - `-`: for regular files
+    - `c`: for character files (data transferred char by char)
+    - `b`: for block files (data transferred via blocks/chunks)
+    - `l`: for link files (shortcuts)
+    - `p`: for pipe files
+- The next three bits represent the permissions of the OWNER.
+- The following three bits represent the permissions of the GROUP.
+- The final three bits represent the permissions of OTHER users.
 
-- chmod g+w hamada : add write permission for the group
-- chmod o+r hamada : add read permission for the others
-- chmod u-w hamada : delete write permission for the owner
-- chmod u+x hamada g+x : change mode for more than one user
-- chmod u+rw hamada: read write for owner
-- chmod ug-w hamada: write for owner and group
-- chmod u+w hamada , u-rx **====** chmod u=w
-- chmod a+x hamada **====** chmod ugo+x **====** chmod +x
-- chmod 644 hamada : mean hamada **wr- r-- r--**
-- chmod =rwx hamada : change the owner permissions to be read, write and execute
-- chmod -R 644 hamada : change mode for the directory hamada and the files which it contains
+## File Modes
+
+- `r`:
+  - For a file, this means the ability to read the contents of the file.
+  - For a directory, this means the ability to list the files and directories within the directory using the `ls` command.
+- `w`:
+  - For a file, this means the ability to edit the contents of the file or delete it.
+  - For a directory, this means the ability to add or remove files from the directory.
+- `x`:
+  - For a file, this means the ability to execute the file if it is an application or script.
+  - For a directory, this means the ability to change to that directory using the `cd` command.
+
+### Changing File Ownership and Group Membership
+
+- The `chown` command is used to change the owner of a file or directory.
+- Only the root user can change the ownership of files.
+- To change the owner of the file `hamada` to user `ali` in the `/home/student/` directory, you can use the command `chown ali /home/student/hamada`.
+- To change the group ownership of `hamada` to the `admins` group, you can use the command `chown :admins /home/student/hamada`.
+- The `chgrp` command is used to change the group ownership of a file. For example, `chgrp admin hamada` changes the group ownership of `hamada` to the `admin` group.
+
+### Changing File Permissions with chmod
+
+- The `chmod` command is used to change the permissions of a file or directory.
+- `g+w` adds write permission for the group, `o+r` adds read permission for others, and `u-w` removes write permission for the owner.
+- You can change the permissions for multiple users by separating their permissions with a space, like `u+x g+x`.
+- `u+rw` grants read and write permissions for the owner, while `ug-w` grants write permission for both the owner and group.
+- `u=w` sets the permissions to only allow the owner to write, while `a+x` grants execute permission for all users.
+- `chmod 644 hamada` means that `hamada` has permissions `wr- r-- r--`.
+- `chmod =rwx hamada` changes the owner permissions to read, write, and execute.
+- `chmod -R 644 hamada` changes the permissions for the directory `hamada` and all files and directories within it recursively.
 
 #### special permissions
 
@@ -235,6 +256,89 @@ To switch modes in VMware, use `ALT + CTRL + F1`. However, before doing so, you 
   - "N" : next match : to move between the matches
   - "g" : to get to the first page
   - "G" : last page of the man page
+
+## Process
+
+- echo $$ : print the number of the processes of the shell (processId)
+- ps : all the process that run on the shell right now
+- ps aux : all the process that run on my terminal or on other terminal
+  - a : for all process attached to a terminal
+  - u : provides more columns
+  - x : all other processes related to the systems
+- ls /proc : give all the running processes each process is represents as directory named of the processId
+- ps aux | grep vim : get the data of the process by name
+- pidof vim : get the data of the process by name
+- ps -ef : get all process include the parent process
+- ps -l : the same as the above
+- ps fex : get all process running in the shape of tree
+- pstree : get all process running in the shape of tree
+- top : get the process in a dynamically way
+  - refresh every 3 seconds
+  - give all information about the system
+  - press 1 give you your consumption of each core you have
+  - s : for change the default refresh time
+  - h : for help
+  - k : for kill process
+  - r : for renice a process
+  - M : to sort by amount of usage from memory
+  - P : to sort by amount of usage from CPU utilization
+  - n : change the number of processes shown
+  - w : to save the current display configuration
+  - q : for quit
+- uptime : get the information about the consumption of the process of the cpu's
+
+- the first process running on my system is `systemd` and have a processId of 1
+- if `systemd` is killed the system shutdown
+- if the `TTY = ?` is running in the background
+- `STAT`
+  - `S` : for sleep
+  - `R` : for running
+- `START` : this process started at
+- `TIME` : take how much time to run
+- `COMMAND` : what the in charge of this process
+
+### Controlling Jobs
+
+- `CTRL + c` : means kill the process
+- `CTRL + z` : means suspend the current process
+- fg %(processNumber) : get the suspended process into fore ground
+- jobs : get all the suspended jobs you have right now
+- sleep 20000& : run this commend in the back ground
+
+### Kill process
+
+- kill -l : list all type of signals that i have
+- types of signals
+  - 1 : SighUp : reread the configuration file
+  - 9 : SigKill : Dirty Kill, kill without consequence
+  - 15 : SIGTERM : gentle kill, kill your self please
+- kill -15 9855 : kill the process 9855
+- pkill vim : kill all vims that opened
+
+### priority
+
+- nice value represents the priority value of the process from -20 to 19
+- nice sleep 200 : get nice value of 10
+- nice -n 15 sleep 200 : nice value of 15
+- renice -n 17 1021 : reset the nice value of the process 1021 to be 17
+
+## Diamonds
+
+- difference between systemd and init diamond
+- systemctl : show all the diamods that running on my machine
+- systemctl --type service : show the service only
+- systemctl status sshd : show information abot the servie sshd
+- systemctl status sshd -l : show the service with the log file
+- systemctl stop sshd : stop the service sshd
+- echo $? : print the status of the last commend run
+- systemctl enable sshd : enable service of sshd to run on the startup of the machine
+- systemctl disable sshd : disable the service from start up when the machine boot
+- systemctl is-active sshd : ask if the sshd is active write now ?
+- systemctl restart sshd : restart is stop the service and start it again
+- systemctl reload sshd : reread the configuration file of the sshd
+- systemctl list-dependencies sshd : list all the services that depends on the sshd
+- systemctl list-dependencies sshd --reverse : list all the services that sshd depends on
+-
 
 ## techniques
 
